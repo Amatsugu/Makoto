@@ -1,40 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
 	public float moveSpeed;
+	public float dashSpeed;
+	public float dashDistance;
 	public float turnSpeed;
 
 	private PlayerInput _input;
-	private CharacterController _characterController;
+	private Rigidbody2D _rigidbody;
 	private Vector2 _vel;
+	private Vector2 _dashVel;
+	private Vector2 _curLook;
+	private float _dashTime;
+	private Transform _transform;
 
 	// Start is called before the first frame update
-	void Start()
+	private void Start()
 	{
 		_input = GetComponent<PlayerInput>();
-		_characterController = GetComponent<CharacterController>();
+		_rigidbody = GetComponent<Rigidbody2D>();	
+		_transform = transform;
 		_vel = Vector3.zero;
-		Cursor.lockState = CursorLockMode.Locked;
-		Cursor.visible = false;
 	}
 
 #if DEBUG
+
 	private void OnValidate()
 	{
-		if(Application.isEditor && Application.isPlaying)
+		if (Application.isEditor && Application.isPlaying)
 		{
 			Start();
 		}
 	}
+
 #endif
+
 	// Update is called once per frame
-	void Update()
+	private void Update()
 	{
-		_characterController.Move(_vel * Time.deltaTime);
+		var curVel = _vel;
+		if (_dashTime > Time.time)
+		{
+			curVel = _dashVel * dashSpeed;
+			Debug.DrawRay(_transform.position, curVel.normalized * dashDistance, Color.white);
+		}
+		/*_characterController.Move(curVel * Time.deltaTime);*/
+		_rigidbody.velocity = curVel;
+		Debug.DrawRay(_transform.position, _curLook, Color.magenta);
 	}
 
 	public void Move(InputAction.CallbackContext context)
@@ -43,14 +57,18 @@ public class PlayerController : MonoBehaviour
 		{
 			case InputActionPhase.Disabled:
 				break;
+
 			case InputActionPhase.Waiting:
 				break;
+
 			case InputActionPhase.Started:
 				break;
+
 			case InputActionPhase.Performed:
 				var pos = context.ReadValue<Vector2>();
 				_vel = pos * moveSpeed;
 				break;
+
 			case InputActionPhase.Canceled:
 				_vel = Vector2.zero;
 				break;
@@ -59,19 +77,27 @@ public class PlayerController : MonoBehaviour
 
 	public void Dash(InputAction.CallbackContext context)
 	{
-
+		if (context.phase != InputActionPhase.Performed)
+			return;
+		if (_vel.magnitude == 0)
+			return;
+		_dashVel = _vel.normalized;
+		_dashTime = (dashDistance / dashSpeed) + Time.time;
 	}
 
 	public void Aim(InputAction.CallbackContext context)
 	{
-		var pos = context.ReadValue<Vector2>();
-		Debug.Log($"Aim: {pos}");
+		var look = context.ReadValue<Vector2>();
+		_curLook = look;
+		Debug.Log($"Aim: {look}");
 	}
 
 	public void MousePos(InputAction.CallbackContext context)
 	{
 		var pos = context.ReadValue<Vector2>();
+		pos = Camera.main.ScreenToWorldPoint(pos);
+		_curLook = pos - (Vector2)_transform.position;
+		_curLook.Normalize();
 		//Debug.Log($"Pos: {pos}");
 	}
 }
-
