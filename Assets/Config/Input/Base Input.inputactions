@@ -106,7 +106,7 @@
                     "path": "<Mouse>/radius",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Mouse;Controller",
+                    "groups": "Controller",
                     "action": "Aiming",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -128,7 +128,7 @@
                     "path": "<Mouse>/position",
                     "interactions": "",
                     "processors": "",
-                    "groups": "Mouse;Keyboard",
+                    "groups": "Keyboard",
                     "action": "MousePos",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -145,6 +145,11 @@
                     "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": true,
+                    "isOR": false
                 }
             ]
         },
@@ -154,17 +159,6 @@
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
-                    "isOptional": false,
-                    "isOR": false
-                }
-            ]
-        },
-        {
-            "name": "Mouse",
-            "bindingGroup": "Mouse",
-            "devices": [
-                {
-                    "devicePath": "<Mouse>",
                     "isOptional": false,
                     "isOR": false
                 }
