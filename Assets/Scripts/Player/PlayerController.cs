@@ -1,8 +1,12 @@
+using System;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+	public Vector2 CurLook => _curLook;
+
 	public float moveSpeed;
 	public float dashSpeed;
 	public float dashDistance;
@@ -36,8 +40,14 @@ public class PlayerController : MonoBehaviour
 			Start();
 		}
 	}
-
 #endif
+
+	public void ApplyRecoil(float baseRecoil)
+	{
+		var r = (Vector2)_transform.forward * baseRecoil;
+		_vel -= r;
+	}
+
 
 	public void Update()
 	{

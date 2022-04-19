@@ -8,24 +8,20 @@ public class Weapon : ScriptableObject
 {
 
 
-	public string DisplayName { get; set; }
-	public string Description { get; set; }
-	public float BaseFireRate { get; set; }
-	public float BaseProjectileFlightSpeed { get; set; }
-	public int BaseMultiShot { get; set; }
-	public float BaseSpread { get; set; }
-	public float BaseRecoil { get; set; }
-	public Transform BaseProjectile { get; set; }
+	public string displayName;
+	public string description;
+	public float baseFireRate;
+	public float accuracy;
+	public float baseProjectileFlightSpeed;
+	public int baseMultiShot;
+	public float baseSpread;
+	public float baseRecoil;
+	public GameObject baseProjectile;
 
 
-	public void HandleInput(InputAction.CallbackContext context, Vector3 spawnPoint, Vector3 forward)
-	{ 
-
-	}
-
-	public void FireBurst(Vector3 position, Vector3 forward)
+	public void FireProjectile(Vector3 position, Vector3 forward)
 	{
-		for (int i = 0; i < BaseMultiShot; i++)
+		for (int i = 0; i < (baseMultiShot + 1); i++)
 		{
 			var proj = InstantiateProjectile(position, forward);
 			ApplyProjectileProperties(proj);
@@ -36,11 +32,15 @@ public class Weapon : ScriptableObject
 
 	public GameObject InstantiateProjectile(Vector3 position, Vector3 fwd)
 	{
-		throw new NotImplementedException();
+		return Instantiate(baseProjectile, position, Quaternion.LookRotation(Vector3.forward, fwd));
 	}
 
 	public void ApplyProjectileProperties(GameObject projectile)
 	{
+		var rb = projectile.GetComponent<Rigidbody2D>();
+		var transform = projectile.transform;
+		rb.velocity = transform.up * baseProjectileFlightSpeed;
+
 
 	}
 }

@@ -218,6 +218,7 @@ GameObject:
   - component: {fileID: 84535433}
   - component: {fileID: 84535434}
   - component: {fileID: 84535435}
+  - component: {fileID: 84535430}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -225,6 +226,20 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &84535430
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 84535429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b459af14787551c498b7c3aab65ce629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weapon: {fileID: 11400000, guid: 8cf8f3b10d4680d4db764ac91e5e09fe, type: 2}
+  _projectileSpawn: {fileID: 44917935}
 --- !u!4 &84535431
 Transform:
   m_ObjectHideFlags: 0
@@ -347,6 +362,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1cfe131d-ac05-449f-a43c-26b4bb570a3f
     m_ActionName: Base/Dash[/Keyboard/space]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 84535430}
+        m_TargetAssemblyTypeName: PlayerAttack, Assembly-CSharp
+        m_MethodName: HandleInput
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: da9a2bfb-7ba3-4d2c-bfa3-4557ad0f0d1a
+    m_ActionName: Base/Fire[/Mouse/leftButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Keyboard
   m_DefaultActionMap: Base
